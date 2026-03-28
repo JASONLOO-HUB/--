@@ -10,18 +10,14 @@ import react from '@vitejs/plugin-react';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const frontendRoot = path.resolve(__dirname, '../frontend');
 
-/** GitHub Pages 项目站为 /<repo>/，本地/Vercel 根路径用 /demo/；构建前可设 VITE_PAGES_BASE */
-function pagesBase(): string {
-  const raw = process.env.VITE_PAGES_BASE?.trim();
-  if (!raw) return '/demo/';
-  const withSlash = raw.endsWith('/') ? raw : `${raw}/`;
-  return withSlash.startsWith('/') ? withSlash : `/${withSlash}`;
-}
-
+/**
+ * 相对 base：demo/index.html 引用的 JS/CSS 随当前目录解析。
+ * 避免 GitHub Pages 项目站（/repo/）下误请求域名根路径的 /demo/assets/* 导致 iframe 白屏。
+ */
 export default defineConfig({
   root: frontendRoot,
   plugins: [react()],
-  base: pagesBase(),
+  base: './',
   envDir: __dirname,
   envPrefix: 'VITE_',
   css: {
