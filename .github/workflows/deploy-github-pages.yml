@@ -1,0 +1,45 @@
+# 独立「网站」仓库：发布根目录静态资源（含已提交的 demo/），无需在 CI 中访问上级 frontend。
+# 构建 demo 请在本地：cd 网站 && npm run build，再提交 demo/ 后推送。
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-marketing-standalone
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble static site (exclude node_modules)
+        run: |
+          rm -rf _site_publish
+          mkdir -p _site_publish
+          rsync -a --exclude node_modules ./ _site_publish/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site_publish
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
