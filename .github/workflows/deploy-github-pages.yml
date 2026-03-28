@@ -1,5 +1,4 @@
-# 独立「网站」仓库：发布根目录静态资源（含已提交的 demo/），无需在 CI 中访问上级 frontend。
-# 构建 demo 请在本地：cd 网站 && npm run build，再提交 demo/ 后推送。
+# 仓库根 = 宣传站；含 frontend/ 时在 CI 内构建 demo/，再发布静态站（不注入 VITE_PAGES_BASE，与 Vite base: ./ 一致）。
 name: Deploy GitHub Pages
 
 on:
@@ -22,11 +21,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Assemble static site (exclude node_modules)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: |
+            frontend/package-lock.json
+            package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+
+      - name: Install site devDependencies (Vite)
+        run: npm ci
+        working-directory: .
+
+      - name: Build embedded demo into demo/
+        run: npm run build
+        working-directory: .
+
+      - name: Assemble static site (exclude node_modules & build cruft)
         run: |
           rm -rf _site_publish
           mkdir -p _site_publish
-          rsync -a --exclude node_modules ./ _site_publish/
+          rsync -a \
+            --exclude node_modules \
+            --exclude frontend/node_modules \
+            --exclude frontend/dist \
+            --exclude .git \
+            ./ _site_publish/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

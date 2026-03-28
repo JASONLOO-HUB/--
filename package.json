@@ -2,7 +2,7 @@
   "name": "fanshen-marketing-site",
   "private": true,
   "type": "module",
-  "description": "宣传站静态页 + 内嵌 demo。构建：上级 frontend 需 npm ci；npm run build 生成 demo/（Vite base 为 ./，适配 GitHub Pages 子路径）。GitHub：推 main 触发 deploy-marketing-site.yml。",
+  "description": "宣传站静态页 + 内嵌 demo。构建：frontend/ 与根目录各 npm ci 后 npm run build 生成 demo/（base 为 ./，适配 GitHub Pages 项目站）。推 main 触发 .github/workflows/deploy-github-pages.yml。",
   "scripts": {
     "build": "vite build --config ./vite.config.ts --mode marketing",
     "start": "serve . -l 5175 -c serve.json",

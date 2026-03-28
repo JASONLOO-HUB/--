@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
@@ -5,10 +6,14 @@ import react from '@vitejs/plugin-react';
 
 /**
  * 宣传站专用：在「网站」目录执行 npm run build，将产品前端（Mock）打进 ./demo/
- * 源码仍来自上级目录的 frontend（与主应用同源）；部署时只需上传本文件夹（含已构建的 demo/）。
+ * 优先使用本仓库内 ./frontend；仍兼容旧布局（与「网站」同级的 ../frontend）。
  */
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const frontendRoot = path.resolve(__dirname, '../frontend');
+const embeddedFrontend = path.join(__dirname, 'frontend');
+const siblingFrontend = path.resolve(__dirname, '../frontend');
+const frontendRoot = fs.existsSync(path.join(embeddedFrontend, 'package.json'))
+  ? embeddedFrontend
+  : siblingFrontend;
 
 /**
  * 相对 base：demo/index.html 引用的 JS/CSS 随当前目录解析。
