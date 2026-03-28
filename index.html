@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-demo-base="./demo">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>履程 — 大模型驱动的简历与求职路径助手</title>
+    <meta
+      name="description"
+      content="简历与 JD 先结构化，再 RAG 对齐、分段改写与可审计采纳——方舟大模型 + SSE/ASR，把求职材料跑成一条闭环管线。"
+    />
+    <!-- 地图数据：Natural Earth（公有领域）邻域/内地 ne_50m_*；香港边界 OSM relation 913110 — osm_hk_admin_913110.geojson（ODbL © OpenStreetMap 贡献者） -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;500;600&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="logo" href="#" id="logo-home">履程<span> · 求职助手</span></a>
+        <nav class="site-nav" aria-label="功能节点">
+          <button type="button" class="site-nav__node" data-slide-target="slide-hero">封面</button>
+          <button type="button" class="site-nav__node" data-slide-target="slide-input">录入</button>
+          <button type="button" class="site-nav__node" data-slide-target="slide-analysis">分析</button>
+          <button type="button" class="site-nav__node" data-slide-target="slide-rewrite">改写</button>
+          <button type="button" class="site-nav__node" data-slide-target="slide-followup">补信息</button>
+          <button type="button" class="site-nav__node" data-slide-target="slide-diff">核对</button>
+          <button type="button" class="site-nav__node" data-slide-target="slide-plan">规划</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="deck-bar" id="deck-controls" aria-label="分页切换">
+      <button type="button" id="deck-nav-prev" class="deck-bar__btn" aria-label="上一屏" title="上一屏">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+      <nav class="deck-bar__dots" aria-label="当前位置">
+        <button type="button" class="deck-bar__dot" data-slide-target="slide-hero" aria-label="封面"></button>
+        <button type="button" class="deck-bar__dot" data-slide-target="slide-input" aria-label="录入"></button>
+        <button type="button" class="deck-bar__dot" data-slide-target="slide-analysis" aria-label="分析"></button>
+        <button type="button" class="deck-bar__dot" data-slide-target="slide-rewrite" aria-label="改写"></button>
+        <button type="button" class="deck-bar__dot" data-slide-target="slide-followup" aria-label="补信息"></button>
+        <button type="button" class="deck-bar__dot" data-slide-target="slide-diff" aria-label="核对"></button>
+        <button type="button" class="deck-bar__dot" data-slide-target="slide-plan" aria-label="规划"></button>
+      </nav>
+      <button type="button" id="deck-nav-next" class="deck-bar__btn" aria-label="下一屏" title="下一屏">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
+    </div>
+
+    <main id="main-deck">
+      <!-- 0 独立封面 -->
+      <section
+        id="slide-hero"
+        class="slide slide--hero"
+        aria-labelledby="hero-title"
+        aria-describedby="hero-deeper-region"
+      >
+        <div class="hero-stage" id="hero-stage">
+          <div class="hero-globe-bg" aria-hidden="true">
+            <canvas id="hero-globe-canvas"></canvas>
+          </div>
+          <div class="hero-stage__scrim" aria-hidden="true"></div>
+          <div class="hero-stage__content">
+            <div class="hero-view__inner">
+              <h1 id="hero-title">履程：面向内地与香港，把履历对齐真实岗位</h1>
+              <section class="hero-focus-card" aria-labelledby="hero-focus-card-label">
+                <h2 class="sr-only" id="hero-focus-card-label">地区就业市场痛点</h2>
+                <div class="hero-focus-card__tabs" role="tablist" aria-label="选择地区以查看痛点并自动调整地图视角">
+                  <button
+                    type="button"
+                    class="hero-dot is-active"
+                    role="tab"
+                    id="tab-hero-mainland"
+                    aria-selected="true"
+                    aria-controls="hero-panel-mainland"
+                    tabindex="0"
+                    data-hero-region-tab="mainland"
+                  >
+                    <span class="hero-dot__glyph" aria-hidden="true"></span>
+                    <span class="hero-dot__text">内地</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="hero-dot"
+                    role="tab"
+                    id="tab-hero-hk"
+                    aria-selected="false"
+                    aria-controls="hero-panel-hk"
+                    tabindex="-1"
+                    data-hero-region-tab="hk"
+                  >
+                    <span class="hero-dot__glyph" aria-hidden="true"></span>
+                    <span class="hero-dot__text">香港</span>
+                  </button>
+                </div>
+                <div
+                  class="hero-focus-card__body"
+                  id="hero-panel-mainland"
+                  role="tabpanel"
+                  aria-labelledby="tab-hero-mainland"
+                  data-hero-region-panel="mainland"
+                >
+                  <h3 class="hero-focus-card__heading">中国内地</h3>
+                  <ul class="hero-focus-card__list">
+                    <li>环境高度竞争，雇主极看重垂直实习与对口经历，履历与 JD 之间常见「匹配断层」。</li>
+                    <li>职业规划近乎刚需，传统高价咨询却将多数普通学生挡在门外，信息与服务仍不对称。</li>
+                  </ul>
+                </div>
+                <div
+                  class="hero-focus-card__body"
+                  id="hero-panel-hk"
+                  role="tabpanel"
+                  aria-labelledby="tab-hero-hk"
+                  data-hero-region-panel="hk"
+                  hidden
+                >
+                  <h3 class="hero-focus-card__heading">香港</h3>
+                  <ul class="hero-focus-card__list">
+                    <li>国际金融与多元产业并存，简历需要经得住行业逻辑的审视，而非简单信息堆砌。</li>
+                    <li>筛选与匹配成本高，求职者难以及时看清岗位叙事与自身材料的差距。</li>
+                  </ul>
+                </div>
+              </section>
+              <button type="button" class="hero__cta" id="hero-enter">进入功能介绍</button>
+              <p class="hero__scroll-hint">
+                向下可展开<strong>产品闭环</strong>、<strong>技术选型</strong>与<strong>社会效益</strong>；能力由<strong>方舟大模型 + RAG + 流式交付</strong>支撑，把对齐 JD、补经历与可执行规划收成一条你能跟完的链路。
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="hero-depth" id="hero-deeper-region" aria-labelledby="hero-pipeline-heading">
+          <h2 class="sr-only" id="hero-pipeline-heading">产品闭环、技术选型与社会效益</h2>
+          <div class="hero-depth__grid">
+            <p class="hero-depth__statement">
+              把散落在各处的经历，收成模型能读懂、敢下判断的一份叙事——再交回你手里签字。
+            </p>
+            <div class="hero-depth__accord">
+              <details class="hero-accord">
+                <summary class="hero-accord__summary">
+                  <span class="hero-accord__summary-row">
+                    <span class="hero-accord__chevron" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </span>
+                    <span class="hero-accord__title">产品闭环</span>
+                  </span>
+                  <span class="hero-accord__tag">六步 · 录入 → 规划</span>
+                </summary>
+                <div class="hero-accord__panel">
+                  <ol class="hero-accord__flow">
+                    <li>
+                      <strong>录入</strong> — 简历与多份 JD 结构化入库，解析绑定会话，后续分析、改写、追问共用<strong>同一份可对齐的上下文</strong>。
+                    </li>
+                    <li>
+                      <strong>分析</strong> — 简历 × 多岗位匹配推理；长报告用 <abbr title="Server-Sent Events">SSE</abbr> 渐进送达，少白屏、多「看得见在推」。
+                    </li>
+                    <li>
+                      <strong>改写</strong> — 按教育 / 实习 / 项目等模块分段生成；口述经历经 ASR 再进大模型整理与改写，多模态进同一条管线。
+                    </li>
+                    <li>
+                      <strong>补信息</strong> — 模型驱动追问与选项，缺口补全后写回会话，再喂回生成链路。
+                    </li>
+                    <li>
+                      <strong>核对</strong> — 原文与改写并排、差异高亮，确认后再采纳，闭环可审计。
+                    </li>
+                    <li>
+                      <strong>规划</strong> — 模型归纳投递时间线与行动建议，长内容支持屏内滚动读完，从材料落到「下一步干嘛」。
+                    </li>
+                  </ol>
+                </div>
+              </details>
+              <details class="hero-accord">
+                <summary class="hero-accord__summary">
+                  <span class="hero-accord__summary-row">
+                    <span class="hero-accord__chevron" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </span>
+                    <span class="hero-accord__title">技术选型</span>
+                  </span>
+                  <span class="hero-accord__tag">模型 · RAG · 工程栈</span>
+                </summary>
+                <div class="hero-accord__panel">
+                  <ul class="hero-accord__tech-list">
+                    <li>
+                      <strong>火山引擎方舟（豆包）大模型</strong> — OpenAI 兼容 API（北京区域端点），统一客户端与模型版本切换。
+                    </li>
+                    <li>
+                      <strong>检索增强（RAG）</strong> — 岗位描述与简历结构化片段检索相关上下文，再交由大模型做分析、追问与改写；索引形态随迭代对齐。
+                    </li>
+                    <li>
+                      <strong>多场景 prompt 与链式编排</strong> — 分析、改写、追问、规划、语音整理等分场景模板与调用链（可配合 LangChain 组织复杂逻辑）。
+                    </li>
+                    <li>
+                      <strong>SSE 流式分析</strong> — 长上下文与多 JD 下服务端推送分段呈现，避免一次等待大段 JSON 的断裂感。
+                    </li>
+                    <li>
+                      <strong>ASR + LLM</strong> — 火山语音识别与大模型总结 / 追问衔接；前端可选用 WebSocket 流式转写，口述快速进入结构化流程。
+                    </li>
+                  </ul>
+                  <p class="hero-accord__footnote">
+                    工程底座：React、TypeScript、Vite、Tailwind；FastAPI；Supabase（PostgreSQL）；前端 Vercel。交付与扩展的底子，差异化仍在模型与数据链。
+                  </p>
+                </div>
+              </details>
+              <details class="hero-accord">
+                <summary class="hero-accord__summary">
+                  <span class="hero-accord__summary-row">
+                    <span class="hero-accord__chevron" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </span>
+                    <span class="hero-accord__title">社会效益</span>
+                  </span>
+                  <span class="hero-accord__tag">普惠 · 匹配 · 赋权</span>
+                </summary>
+                <div class="hero-accord__panel">
+                  <p>
+                    简历与 JD 错位、招聘初筛成本高，叠加高价职业规划，常把普通求职者挡在机会之外。履程用 AI 把深度对齐岗位、挖掘既有优势与实习路径建议做成可反复使用的辅助，压低门槛，让缺少资源背景的人也能持续获得像样的支持。
+                  </p>
+                  <p>
+                    人与岗匹配更准，盲投与误筛略减，社会层面的人力资源配置会更健康；用技术降低信息与服务的门槛，也是在放大普通人的可见度与选择权。
+                  </p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1 录入 -->
+      <section id="slide-input" class="slide" aria-labelledby="f-input-title">
+        <div class="slide__grid">
+          <div class="feature__text">
+            <p class="feature__eyebrow">录入</p>
+            <h2 id="f-input-title">结构化入口：给模型「可对齐」的简历与 JD</h2>
+            <p class="feature__body">
+              材料散在 PDF、Word 和好几段 JD 里，模型只能猜——猜多了，后面每一步都带噪。
+            </p>
+            <p class="feature__detail">
+              上传 + 多岗位并行录入，后端用 PyPDF2、python-docx 等解析，REST 写入会话与岗位表（Supabase）。<strong>统一结构化输入</strong>，让后面的 RAG 与生成少做「格式侦探」，多做判断。
+            </p>
+          </div>
+          <div class="mac-wrap">
+            <div class="mac" aria-hidden="true">
+              <div class="mac-chrome">
+                <span class="mac-dot mac-dot--r"></span>
+                <span class="mac-dot mac-dot--y"></span>
+                <span class="mac-dot mac-dot--g"></span>
+                <div class="mac-notch"><span class="mac-notch__bar"></span></div>
+              </div>
+              <div class="mac-viewport">
+                <div class="mac-viewport-inner">
+                  <iframe class="mac-frame" title="原型：录入" src="./demo/#/" loading="lazy"></iframe>
+                </div>
+              </div>
+            </div>
+            <p class="mac-caption">真实前端 · Mock · 可滚动</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2 分析：滚动驱动 iframe -->
+      <section
+        id="slide-analysis"
+        class="slide slide--scroll-drive"
+        style="--scroll-drive-extra: 260vh"
+        data-iframe-scroll
+        aria-labelledby="f-analysis-title"
+      >
+        <div class="slide-scroll-track">
+          <div class="slide-scroll-sticky">
+            <p class="scroll-drive-hint">
+              在本屏内往下滚：右侧长报告跟页面一起动——就像真实场景里<strong>多 JD、长分析</strong>要一口气读完。底层用 <abbr title="Server-Sent Events">SSE</abbr> 边生成边推，白屏焦虑换成「看得见进度」。
+            </p>
+            <div class="slide__grid slide__grid--flip">
+            <div class="feature__text">
+              <p class="feature__eyebrow">分析</p>
+              <h2 id="f-analysis-title">匹配分析：RAG 上下文 + 大模型推理</h2>
+              <p class="feature__body">
+                JD 又长又绕，多岗位并排时人眼先投降。要的是一眼看清「差在哪」，不是一份打不开的说明书。
+              </p>
+              <p class="feature__detail">
+                简历与 JD 的结构化片段先检索对齐，再交给方舟大模型归纳差距与补强方向；前端用 <abbr title="Server-Sent Events">SSE</abbr> 流式接片段，配上摘要与维度图表。长分析可以<strong>边生成边读完</strong>，你始终知道系统正在往哪走，而不是对着空白干等。
+              </p>
+            </div>
+            <div class="mac-wrap">
+              <div class="mac" aria-hidden="true">
+                <div class="mac-chrome">
+                  <span class="mac-dot mac-dot--r"></span>
+                  <span class="mac-dot mac-dot--y"></span>
+                  <span class="mac-dot mac-dot--g"></span>
+                  <div class="mac-notch"><span class="mac-notch__bar"></span></div>
+                </div>
+                <div class="mac-viewport">
+                  <div class="mac-viewport-inner">
+                    <iframe
+                      class="mac-frame"
+                      title="原型：匹配分析"
+                      src="./demo/#/analysis/mock-session"
+                      loading="lazy"
+                    ></iframe>
+                  </div>
+                </div>
+              </div>
+              <p class="mac-caption">真实前端 · Mock · 可滚动</p>
+            </div>
+          </div>
+          </div>
+          <div class="slide-scroll-spacer" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- 3 改写 -->
+      <section id="slide-rewrite" class="slide" aria-labelledby="f-rewrite-title">
+        <div class="slide__grid">
+          <div class="feature__text">
+            <p class="feature__eyebrow">改写</p>
+            <h2 id="f-rewrite-title">分段改写与口述进模型</h2>
+            <p class="feature__body">
+              整页丢给模型改写，像闭眼踩油门：你不知道它动了哪一句。拆开按模块改，才敢对自己负责。
+            </p>
+            <p class="feature__detail">
+              教育 / 实习 / 项目分段提交；口述可走火山 ASR，再进大模型整理成可追问草稿。后端 <code>voice</code> 与方舟链路衔接，前端也可接 <strong>WebSocket 流式转写</strong>，语音与文字走同一条生成管线，少一道复制粘贴。
+            </p>
+          </div>
+          <div class="mac-wrap">
+            <div class="mac" aria-hidden="true">
+              <div class="mac-chrome">
+                <span class="mac-dot mac-dot--r"></span>
+                <span class="mac-dot mac-dot--y"></span>
+                <span class="mac-dot mac-dot--g"></span>
+                <div class="mac-notch"><span class="mac-notch__bar"></span></div>
+              </div>
+              <div class="mac-viewport">
+                <div class="mac-viewport-inner">
+                  <iframe
+                    class="mac-frame"
+                    title="原型：改写"
+                    src="./demo/#/rewrite/mock-session/mock-resume"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+            <p class="mac-caption">真实前端 · Mock · 可滚动</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 补信息 -->
+      <section
+        id="slide-followup"
+        class="slide feature--followup"
+        aria-labelledby="f-followup-title"
+        data-variant-root
+        data-iframe-load-cap-ms="2800"
+      >
+        <div class="slide__grid slide__grid--flip">
+          <div class="feature__text">
+            <p class="feature__eyebrow">补信息</p>
+            <h2 id="f-followup-title">模型驱动追问：把缺口补回上下文</h2>
+            <p class="feature__body">
+              经历写不细，模型不敢编；硬编了，你更不敢投。要的是它问你答，把洞补上，而不是一次 prompt 赌命。
+            </p>
+            <p class="feature__detail">
+              大模型点名缺口，生成追问与可点选项；回答与简历片段一并写回会话，再驱动改写。你可选用<strong>手动输入</strong>逐条写细，或<strong>智能选项</strong>快速点选——人机协同把上下文补满，再进入下一轮改写。
+            </p>
+            <div class="variant-tools">
+              <span class="sr-only" id="followup-variant-label">切换演示</span>
+              <div class="variant-seg" role="tablist" aria-labelledby="followup-variant-label">
+                <button type="button" role="tab" id="tab-followup-0" aria-selected="true" aria-controls="panel-followup" data-variant-tab data-index="0">手动输入</button>
+                <button type="button" role="tab" id="tab-followup-1" aria-selected="false" aria-controls="panel-followup" data-variant-tab data-index="1" tabindex="-1">智能选项</button>
+              </div>
+              <div class="variant-select-wrap">
+                <label class="sr-only" for="followup-select">演示切换</label>
+                <select class="variant-select" id="followup-select" data-variant-select>
+                  <option value="0">手动输入</option>
+                  <option value="1">智能选项</option>
+                </select>
+              </div>
+            </div>
+            <div class="variant-copy followup-anim" id="panel-followup" role="tabpanel" aria-labelledby="tab-followup-0" aria-live="polite">
+              <h3 data-variant-title>手动补充</h3>
+              <p data-variant-blurb>亲手把经历写细：模型接住你的字句，并入上下文，下一轮改写才有凭有据。</p>
+            </div>
+          </div>
+          <div class="mac-wrap">
+            <div class="mac" aria-hidden="true">
+              <div class="mac-chrome">
+                <span class="mac-dot mac-dot--r"></span>
+                <span class="mac-dot mac-dot--y"></span>
+                <span class="mac-dot mac-dot--g"></span>
+                <div class="mac-notch"><span class="mac-notch__bar"></span></div>
+              </div>
+              <div class="mac-viewport">
+                <div class="mac-viewport-inner followup-anim">
+                  <iframe
+                    class="mac-frame"
+                    title="原型：追问"
+                    data-followup-iframe
+                    src="./demo/#/rewrite/mock-session/mock-resume?demo=followup"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+            <p class="mac-caption">真实前端 · Mock · 可滚动</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 核对 -->
+      <section id="slide-diff" class="slide" aria-labelledby="f-diff-title">
+        <div class="slide__grid slide__grid--flip">
+          <div class="feature__text">
+            <p class="feature__eyebrow">核对</p>
+            <h2 id="f-diff-title">可审计的采纳闭环</h2>
+            <p class="feature__body">
+              黑盒改写不敢签字：你不知道它「优化」掉了什么真实经历。并排看清楚，再点采纳。
+            </p>
+            <p class="feature__detail">
+              结构化 diff 标出改动范围，后端要点与说明可与并排视图对照，每一处改动<strong>有据可查</strong>。采纳前你能自己对齐「改了什么、为什么改」，心里踏实再保存。
+            </p>
+          </div>
+          <div class="mac-wrap">
+            <div class="mac" aria-hidden="true">
+              <div class="mac-chrome">
+                <span class="mac-dot mac-dot--r"></span>
+                <span class="mac-dot mac-dot--y"></span>
+                <span class="mac-dot mac-dot--g"></span>
+                <div class="mac-notch"><span class="mac-notch__bar"></span></div>
+              </div>
+              <div class="mac-viewport">
+                <div class="mac-viewport-inner">
+                  <iframe
+                    class="mac-frame"
+                    title="原型：对比"
+                    src="./demo/#/rewrite/mock-session/mock-resume?demo=diff"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+            <p class="mac-caption">真实前端 · Mock · 可滚动</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 规划：可滚动驱动 -->
+      <section
+        id="slide-plan"
+        class="slide slide--scroll-drive"
+        style="--scroll-drive-extra: 200vh"
+        data-iframe-scroll
+        aria-labelledby="f-plan-title"
+      >
+        <div class="slide-scroll-track">
+          <div class="slide-scroll-sticky">
+            <p class="scroll-drive-hint">
+              规划报告同样跟着屏内滚动走——长内容需要<strong>完整的阅读动线</strong>，你可以从头到尾跟完，而不是被截成几段就丢。
+            </p>
+            <div class="slide__grid">
+            <div class="feature__text">
+              <p class="feature__eyebrow">规划</p>
+              <h2 id="f-plan-title">投递时间线：模型生成的行动草案</h2>
+              <p class="feature__body">
+                材料改完了仍不知道下周干嘛——焦虑从「写不好」变成「动不了」。要的是能执行的月历，不是鸡汤清单。
+              </p>
+              <p class="feature__detail">
+                方舟大模型结合简历与前置分析出规划草案，经 <code>plan</code> API 落库，与录入—分析—改写串成闭环。<strong>从材料到行动</strong>可复看、可跟进，投递节奏落在同一条链路上。
+              </p>
+            </div>
+            <div class="mac-wrap">
+              <div class="mac" aria-hidden="true">
+                <div class="mac-chrome">
+                  <span class="mac-dot mac-dot--r"></span>
+                  <span class="mac-dot mac-dot--y"></span>
+                  <span class="mac-dot mac-dot--g"></span>
+                  <div class="mac-notch"><span class="mac-notch__bar"></span></div>
+                </div>
+                <div class="mac-viewport">
+                  <div class="mac-viewport-inner">
+                    <iframe class="mac-frame" title="原型：规划" src="./demo/#/plan/mock-session" loading="lazy"></iframe>
+                  </div>
+                </div>
+              </div>
+              <p class="mac-caption">真实前端 · Mock · 可滚动</p>
+            </div>
+          </div>
+          </div>
+          <div class="slide-scroll-spacer" aria-hidden="true"></div>
+        </div>
+      </section>
+    </main>
+
+    <script type="application/json" id="followup-variants-data">
+      [
+        {
+          "src": "./demo/#/rewrite/mock-session/mock-resume?demo=followup",
+          "title": "手动补充",
+          "blurb": "亲手把经历写细：模型接住你的字句，并入上下文，下一轮改写才有凭有据。"
+        },
+        {
+          "src": "./demo/#/rewrite/mock-session/mock-resume?demo=followup&variant=smart",
+          "title": "智能选项",
+          "blurb": "模型先出结构化选项，你点选即写入上下文——少冷启动，多「像在和顾问对齐」。"
+        }
+      ]
+    </script>
+    <script type="module" src="./hero-globe.js"></script>
+    <script src="./site.js" defer></script>
+  </body>
+</html>
