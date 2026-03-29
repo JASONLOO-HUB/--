@@ -224,7 +224,7 @@
   }
 
   const tabs = root ? root.querySelectorAll('[data-variant-tab]') : [];
-  const select = root ? root.querySelector('[data-variant-select]');
+  const select = root ? root.querySelector('[data-variant-select]') : null;
   const titleEl = root?.querySelector('[data-variant-title]');
   const blurbEl = root?.querySelector('[data-variant-blurb]');
 
