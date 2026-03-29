@@ -38,7 +38,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
-    <link rel="stylesheet" href="./demo-static.css" />
+    <link rel="stylesheet" href="./frontend-mirror.css" />
     <script type="importmap">
       {
         "imports": {
@@ -295,28 +295,43 @@
                 <div class="mac-viewport-inner">
                   <div class="demo-embed" aria-hidden="true">
                     <div class="demo-scroll">
-                      <div class="ds-page">
-                        <div class="ds-steps">
-                          <div class="ds-step">
-                            <span class="ds-step__n ds-step__n--on">1</span>
-                            <span class="ds-step__lbl ds-step__lbl--on">上传简历</span>
-                          </div>
-                          <div class="ds-step">
-                            <span class="ds-step__n">2</span>
-                            <span class="ds-step__lbl">目标岗位</span>
-                          </div>
-                        </div>
-                        <div class="ds-paper-wrap">
-                          <div class="ds-paper">
-                            <h2 class="ds-h2">上传简历原稿</h2>
-                            <p class="ds-muted">支持 PDF / Word。</p>
-                            <div class="ds-drop">
-                              <div class="ds-drop__file">📄 履程演示_简历.pdf</div>
-                            </div>
-                            <div class="ds-actions">
-                              <span class="ds-btn">上传并预览</span>
+                      <div class="page-shell">
+                        <div class="page-container">
+                          <div class="mx-auto mb-6 max-w-xl">
+                            <div class="relative flex items-start justify-between">
+                              <div class="absolute left-5 right-5 top-4 h-[2px] bg-warm-300"></div>
+                              <div class="relative z-10 flex flex-col items-center">
+                                <span class="flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold border-primary-600 bg-primary-600 text-white">1</span>
+                                <span class="mt-2 text-xs text-warm-800">上传简历</span>
+                              </div>
+                              <div class="relative z-10 flex flex-col items-center">
+                                <span class="flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold border-warm-300 bg-[#fff7ea] text-warm-500">2</span>
+                                <span class="mt-2 text-xs ink-faint">目标岗位</span>
+                              </div>
                             </div>
                           </div>
+                          <section class="mx-auto max-w-3xl">
+                            <div class="paper-stack mx-auto max-w-2xl">
+                              <div class="paper-sheet">
+                                <h2 class="section-title mb-2">上传简历原稿</h2>
+                                <p class="mb-4 text-sm ink-soft">支持 PDF / Word。</p>
+                                <div class="mb-4 rounded-2xl border border-dashed border-[#c9b194] bg-[#fff5e4] px-5 py-10 text-center">
+                                  <div class="flex items-center justify-center gap-2">
+                                    <svg class="h-5 w-5 text-primary-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                      <path d="M6 2h9l5 5v13a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z" />
+                                      <path d="M14 2v6h6" />
+                                      <line x1="8" y1="13" x2="16" y2="13" />
+                                      <line x1="8" y1="17" x2="13" y2="17" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-warm-800">张三_简历.pdf</span>
+                                  </div>
+                                </div>
+                                <div class="flex justify-end">
+                                  <button type="button" class="btn-primary">上传并预览</button>
+                                </div>
+                              </div>
+                            </div>
+                          </section>
                         </div>
                       </div>
                     </div>
@@ -324,7 +339,7 @@
                 </div>
               </div>
             </div>
-            <p class="mac-caption">静态界面复刻 · 仅可滚动 · 无真实交互</p>
+            <p class="mac-caption">产品界面（嵌入模式布局，与前端同源样式类名）</p>
           </div>
         </div>
       </section>
@@ -365,64 +380,133 @@
                   <div class="mac-viewport-inner">
                   <div class="demo-embed" aria-hidden="true">
                     <div class="demo-scroll">
-                      <div class="ds-page">
-                        <div class="ds-analysis-head">
-                          <div class="ds-note">
-                            <h3>岗位需求摘要 · 核心技能</h3>
-                            <div class="ds-tags">
-                              <span class="ds-tag">用户研究</span>
-                              <span class="ds-tag">SQL</span>
-                              <span class="ds-tag">跨部门协作</span>
-                              <span class="ds-tag">数据可视化</span>
+                      <div class="page-shell">
+                        <div class="page-container">
+                          <div class="space-y-8">
+                            <section class="analysis-notes-grid w-full">
+                              <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 sm:items-stretch sm:gap-8">
+                                <div class="flex min-w-0 flex-col sm:h-full">
+                                  <h2 class="section-title mb-2 shrink-0">岗位需求摘要</h2>
+                                  <div class="note-strip note-strip-a note-strip-long flex min-h-0 flex-1 flex-col overflow-y-auto">
+                                    <div class="space-y-2">
+                                      <div class="border-b border-dashed border-[#c9b18f] pb-2">
+                                        <h3 class="mb-1 text-sm font-bold tracking-wide text-warm-700">核心技能</h3>
+                                        <div class="flex flex-wrap gap-1">
+                                          <span class="tag">用户研究</span><span class="tag">SQL</span><span class="tag">跨部门协作</span><span class="tag">数据可视化</span>
+                                        </div>
+                                      </div>
+                                      <div class="border-b border-dashed border-[#c9b18f] pb-2">
+                                        <h3 class="mb-1 text-sm font-bold tracking-wide text-warm-700">核心职责</h3>
+                                        <div class="flex flex-wrap gap-1">
+                                          <span class="tag">需求分析</span><span class="tag">指标复盘</span><span class="tag">跨团队推进</span>
+                                        </div>
+                                      </div>
+                                      <div class="border-b border-dashed border-[#c9b18f] pb-2">
+                                        <h3 class="mb-1 text-sm font-bold tracking-wide text-warm-700">高频关键词</h3>
+                                        <div class="flex flex-wrap gap-1">
+                                          <span class="tag">增长</span><span class="tag">A/B</span><span class="tag">漏斗</span>
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <h3 class="mb-1 text-sm font-bold tracking-wide text-warm-700">建议重点覆盖</h3>
+                                        <ul class="space-y-1 text-xs text-warm-700">
+                                          <li class="flex items-start gap-2"><span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-warm-500"></span>把实习成果写成可验证指标</li>
+                                          <li class="flex items-start gap-2"><span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-warm-500"></span>项目叙述对齐 JD 动词与名词</li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="flex min-w-0 flex-col sm:h-full">
+                                  <h2 class="section-title mb-2 shrink-0">能力差距</h2>
+                                  <div class="note-strip note-strip-a note-strip-long flex min-h-0 flex-1 flex-col overflow-y-auto">
+                                    <div class="space-y-2">
+                                      <div class="min-w-0 border-b border-dashed border-[#c9b18f] pb-2 last:border-b-0">
+                                        <h3 class="mb-1 text-sm font-bold tracking-wide text-warm-700">量化成果</h3>
+                                        <div class="flex flex-wrap gap-1"><span class="tag">高</span></div>
+                                        <p class="mt-1 text-sm leading-relaxed text-warm-600">实习描述偏职责罗列，缺少曝光、转化、成本等可核对指标。</p>
+                                      </div>
+                                      <div class="min-w-0 border-b border-dashed border-[#c9b18f] pb-2 last:border-b-0">
+                                        <h3 class="mb-1 text-sm font-bold tracking-wide text-warm-700">业务结果</h3>
+                                        <div class="flex flex-wrap gap-1"><span class="tag">中</span></div>
+                                        <p class="mt-1 text-sm leading-relaxed text-warm-600">项目段落多写流程，少写「你推动了什么结果、相对基线变化多少」。</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+                            <hr class="divider" />
+                            <nav class="flex justify-center gap-2">
+                              <button type="button" class="pill pill-active">产品实习 · A 公司</button>
+                              <button type="button" class="pill">运营管培 · B 集团</button>
+                            </nav>
+                            <section class="paper-stack">
+                              <div class="paper-sheet">
+                                <h2 class="section-title mb-1">产品实习 · A 公司</h2>
+                                <div class="mt-4 grid grid-cols-2 gap-4">
+                                  <div class="text-center">
+                                    <div class="mx-auto aspect-square w-full max-w-[160px] relative">
+                                      <div class="h-full w-full fe-pie-slot" style="--pie-pct: 68; --pie-color: #926448" aria-hidden="true"></div>
+                                      <div class="fe-pie-center"><span class="text-xl font-bold text-warm-800">68</span></div>
+                                    </div>
+                                    <p class="mt-1 text-xs text-warm-500">经历匹配度</p>
+                                  </div>
+                                  <div class="text-center">
+                                    <div class="mx-auto aspect-square w-full max-w-[160px] relative">
+                                      <div class="h-full w-full fe-pie-slot" style="--pie-pct: 62; --pie-color: #7a8a5c" aria-hidden="true"></div>
+                                      <div class="fe-pie-center"><span class="text-xl font-bold text-warm-800">62</span></div>
+                                    </div>
+                                    <p class="mt-1 text-xs text-warm-500">改写潜力</p>
+                                  </div>
+                                </div>
+                                <p class="mt-2 text-center text-xs text-warm-500">改写难度：中</p>
+                              </div>
+                            </section>
+                            <section class="note-strip note-strip-c">
+                              <h2 class="section-title mb-3 flex items-center gap-2">
+                                <svg class="h-4 w-4 text-warm-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><polyline points="4 16 8 12 12 14 20 6" /><polyline points="16 6 20 6 20 10" /></svg>
+                                优势
+                              </h2>
+                              <div class="flex flex-wrap gap-1">
+                                <span class="tag">结构化表达</span><span class="tag">多段实习</span><span class="tag">跨团队沟通</span>
+                              </div>
+                            </section>
+                            <hr class="divider" />
+                            <section class="paper-note">
+                              <h2 class="section-title mb-4 flex items-center gap-2">
+                                <svg class="h-4 w-4 text-warm-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                                  <rect x="3" y="12" width="4" height="9" rx="1" /><rect x="10" y="6" width="4" height="15" rx="1" /><rect x="17" y="2" width="4" height="19" rx="1" />
+                                </svg>
+                                模块概览
+                              </h2>
+                              <div class="grid grid-cols-4 gap-2 text-center">
+                                <div><div class="text-xl font-semibold text-warm-800">2</div><div class="text-xs text-warm-500">教育经历</div></div>
+                                <div><div class="text-xl font-semibold text-warm-800">3</div><div class="text-xs text-warm-500">实习经历</div></div>
+                                <div><div class="text-xl font-semibold text-warm-800">2</div><div class="text-xs text-warm-500">项目经历</div></div>
+                                <div><div class="text-xl font-semibold text-warm-800">5</div><div class="text-xs text-warm-500">个人技能</div></div>
+                              </div>
+                            </section>
+                            <hr class="divider" />
+                            <div class="text-center">
+                              <button type="button" class="btn-primary inline-flex items-center gap-2">
+                                开始改写
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                              </button>
+                            </div>
+                            <div class="mt-6 space-y-3">
+                              <p class="text-sm leading-relaxed text-warm-600">多份 JD 并排时，系统先把共性要求抽成「岗位需求摘要」，再按岗位拆开看差异；前端用 SSE 把长分析分段推送到屏上，减少白屏等待。</p>
+                              <p class="text-sm leading-relaxed text-warm-600">建议在实习与项目模块补充可验证指标，并与目标岗位关键词显式对齐；教育模块保持时间线闭合，减少解析歧义。</p>
+                              <p class="text-sm leading-relaxed text-warm-600">若岗位强调 ownership，建议写清需求来源、协作角色、个人决策点与上线后复盘数据，便于改写阶段引用同一套锚点。</p>
                             </div>
                           </div>
-                          <div class="ds-note">
-                            <h3>能力差距（节选）</h3>
-                            <p class="ds-muted" style="margin:0;font-size:0.72rem">实习成果量化不足；项目叙述偏流程、缺业务结果。</p>
-                          </div>
-                        </div>
-                        <div class="ds-charts-row">
-                          <div>
-                            <div class="ds-donut ds-donut--a" style="--pct: 68">
-                              <div class="ds-donut__hole">68</div>
-                            </div>
-                            <div class="ds-donut-cap">经历匹配</div>
-                          </div>
-                          <div>
-                            <div class="ds-donut ds-donut--b" style="--pct: 62">
-                              <div class="ds-donut__hole">62</div>
-                            </div>
-                            <div class="ds-donut-cap">改写空间</div>
-                          </div>
-                        </div>
-                        <div class="ds-pills">
-                          <span class="ds-pill ds-pill--on">产品实习 · A 公司</span>
-                          <span class="ds-pill">运营管培 · B 集团</span>
-                        </div>
-                        <h3 class="ds-block-title">匹配解读（演示长文）</h3>
-                        <div class="ds-long">
-                          <p>
-                            多份 JD 并排时，系统先把共性要求抽成「岗位需求摘要」，再按岗位拆开看差异。RAG 检索把简历里可对齐的片段喂给大模型，避免模型在空白上下文里臆测你的经历。
-                          </p>
-                          <p>
-                            下列段落模拟 SSE 流式推送累积后的长报告：你可以在本屏继续向下滚动读完，右侧演示区会随外层滚动同步下移，便于展示「长分析一口气读完」的阅读动线。
-                          </p>
-                          <p>
-                            建议在实习与项目模块补充<strong>可验证指标</strong>（转化率、曝光、成本、时长等），并与目标岗位关键词做显式对齐；教育模块保持时间线闭合，减少解析歧义。
-                          </p>
-                          <p>
-                            若目标岗位强调「ownership」，可把独立负责的范围写清边界：需求来源、协作角色、你拍板的决策点、上线后的复盘数据。模型在改写阶段会反复引用这些锚点。
-                          </p>
-                          <p>
-                            演示站不连接后端；真实产品中，同一会话内的录入、分析、改写、追问与规划共用结构化上下文，减少重复粘贴与口径漂移。
-                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <p class="mac-caption">静态界面复刻 · 屏内滚动同步演示区</p>
+              <p class="mac-caption">产品界面（分析页结构，嵌入模式）</p>
             </div>
           </div>
           </div>
@@ -455,22 +539,63 @@
                 <div class="mac-viewport-inner">
                   <div id="demo-rewrite-root" class="demo-embed demo-rewrite" aria-hidden="true">
                     <div class="demo-scroll">
-                      <div class="ds-page">
-                        <div class="ds-pills">
-                          <span class="ds-pill">教育经历</span>
-                          <span class="ds-pill ds-pill--on">实习经历</span>
-                          <span class="ds-pill">项目经历</span>
-                          <span class="ds-pill">个人技能</span>
-                        </div>
-                        <h3 class="ds-block-title">分段改写 · 实习经历</h3>
-                        <p class="ds-muted">口述可进 ASR，再入模型整理（演示由底部「下一屏」触发转写动画）。</p>
-                        <div class="ds-voice-row">
-                          <span class="ds-btn ds-btn--mic" aria-hidden="true">🎙</span>
-                          <div id="demo-rewrite-transcript" class="ds-transcript"></div>
-                        </div>
-                        <div class="ds-rewrite-preview">
-                          <strong>改写要点（示意）</strong><br />
-                          将「负责运营」改为「独立负责社群内容排期与复盘，三周活动总曝光约 12w」；保留可追问的颗粒度，避免空泛形容词堆叠。
+                      <div class="page-shell">
+                        <div class="page-container">
+                          <nav class="paper-note mb-8 flex flex-wrap gap-2">
+                            <button type="button" class="pill">教育经历</button>
+                            <button type="button" class="pill pill-active">实习经历</button>
+                            <button type="button" class="pill cursor-not-allowed opacity-40">项目经历</button>
+                            <button type="button" class="pill cursor-not-allowed opacity-40">个人技能</button>
+                          </nav>
+                          <div class="space-y-6">
+                            <div class="resume-paper">
+                              <div class="flex items-baseline justify-between">
+                                <h2 class="section-title">实习经历 · 第 1 段</h2>
+                                <span class="text-xs text-warm-400">1 / 3</span>
+                              </div>
+                              <div class="mt-4">
+                                <h3 class="mb-2 text-xs font-medium uppercase tracking-wider text-warm-400">实习经历原文</h3>
+                                <p class="whitespace-pre-wrap text-sm leading-relaxed text-warm-800">在某互联网公司实习期间负责社群运营与内容更新，协助落地活动并完成上级交办任务。</p>
+                              </div>
+                            </div>
+                            <div class="paper-stack">
+                              <div class="paper-sheet space-y-8">
+                                <div>
+                                  <h3 class="mb-3 text-xs font-medium uppercase tracking-wider text-warm-500">描述这段经历</h3>
+                                  <div class="mb-4 flex items-center gap-3">
+                                    <button type="button" class="btn-primary demo-rec-btn inline-flex items-center gap-2">
+                                      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                                        <rect x="9" y="2" width="6" height="12" rx="3" />
+                                        <path d="M5 10a7 7 0 0014 0" />
+                                        <line x1="12" y1="18" x2="12" y2="22" />
+                                      </svg>
+                                      开始录音
+                                      <span class="demo-rec-dot inline-block h-2 w-2 rounded-full bg-primary-600 animate-pulse" aria-hidden="true"></span>
+                                    </button>
+                                    <span class="text-xs text-warm-400">最长 90s · 点击后开始，再次点击结束</span>
+                                  </div>
+                                  <textarea
+                                    id="demo-rewrite-transcript"
+                                    class="input-field mb-4 min-h-[7.5rem] resize-y"
+                                    readonly
+                                    rows="6"
+                                    placeholder="用 STAR 简述：情境·任务·行动·结果（尽量量化）；可语音录入"
+                                  ></textarea>
+                                </div>
+                                <hr class="divider" />
+                                <div class="flex justify-between">
+                                  <button type="button" class="btn-ghost inline-flex items-center gap-1">
+                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><polyline points="15 6 9 12 15 18" /></svg>
+                                    上一段
+                                  </button>
+                                  <button type="button" class="btn-primary inline-flex items-center gap-1 opacity-40" disabled>
+                                    下一段
+                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><polyline points="9 6 15 12 9 18" /></svg>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -478,7 +603,7 @@
                 </div>
               </div>
             </div>
-            <p class="mac-caption">静态复刻 · 脚本草稿转写演示</p>
+            <p class="mac-caption">产品界面（改写页 · 嵌入模式）</p>
           </div>
         </div>
       </section>
@@ -531,23 +656,158 @@
                 <div class="mac-viewport-inner followup-anim">
                   <div class="demo-embed" aria-hidden="true">
                     <div class="demo-scroll">
-                      <div class="ds-page demo-followup-stack">
+                      <div class="demo-followup-stack">
                         <div class="demo-followup-pane is-active" data-followup-pane="0">
-                          <div class="ds-qcard">
-                            <strong>追问 1 / 2</strong>
-                            请补充实习中最能体现业务结果的一条量化指标（例如转化率、曝光、成本）。
+                          <div class="page-shell">
+                            <div class="page-container">
+                              <div class="completeness-bar px-1 mb-4">
+                                <div class="completeness-bar-track"><div class="completeness-bar-fill" style="width: 76%"></div></div>
+                                <span class="shrink-0 text-xs text-warm-500">信息完整度</span>
+                                <span class="completeness-bar-label">76%</span>
+                              </div>
+                              <div class="paper-stack">
+                                <div class="paper-sheet space-y-8">
+                                  <div>
+                                    <h3 class="section-title mb-5 flex items-center gap-2">
+                                      <svg class="h-4 w-4 text-warm-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="9" /><line x1="12" y1="11" x2="12" y2="17" /><circle cx="12" cy="8" r="0.5" fill="currentColor" stroke="none" />
+                                      </svg>
+                                      信息补充
+                                      <span class="text-xs font-normal text-warm-400">1 / 4</span>
+                                    </h3>
+                                    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch">
+                                      <div class="q-card-stack">
+                                        <div class="q-card q-card-active">
+                                          <div class="flex items-start justify-between gap-2">
+                                            <span class="text-warm-800">在&quot;毛白杨&quot;选题中，你具体对接了多少家政府与科研机构？成稿发布后在平台上的排名和互动数据大概是多少？</span>
+                                            <span class="shrink-0 rounded bg-primary-100 px-1.5 py-0.5 text-[10px] font-semibold text-primary-700">重要</span>
+                                          </div>
+                                          <p class="mt-1.5 text-xs text-warm-500">量化数据能大幅提升简历说服力</p>
+                                        </div>
+                                        <div class="q-card q-card-stacked"><span class="invisible">占位</span></div>
+                                      </div>
+                                      <div class="relative flex h-full min-h-0 flex-col">
+                                        <div class="absolute -top-7 right-0">
+                                          <span class="flex items-center gap-2">
+                                            <span class="text-xs text-warm-500">智能模式</span>
+                                            <span class="toggle-track" data-on="false" aria-hidden="true"><span class="toggle-thumb"></span></span>
+                                          </span>
+                                        </div>
+                                        <textarea
+                                          class="min-h-[5rem] w-full flex-1 resize-none rounded-xl border border-warm-200 bg-white px-4 py-3 text-sm text-warm-800 placeholder:text-warm-400"
+                                          readonly
+                                          rows="6"
+                                          placeholder="在此输入你的回答…"
+                                        >对接了约 4 家机构，成稿后阅读量约 10 万，评论互动 500+。</textarea>
+                                      </div>
+                                    </div>
+                                    <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+                                      <div>
+                                        <div class="border-t border-warm-200/60 pt-3">
+                                          <p class="mb-1.5 text-xs font-medium text-warm-500">信息缺口</p>
+                                          <ul class="space-y-0.5 text-xs text-warm-600">
+                                            <li class="flex items-start gap-1.5"><span class="mt-1 block h-1.5 w-1.5 shrink-0 rounded-full bg-warm-300"></span>具体对接了多少家机构？传播效果的排名或互动数据？</li>
+                                            <li class="flex items-start gap-1.5"><span class="mt-1 block h-1.5 w-1.5 shrink-0 rounded-full bg-warm-300"></span>除了&quot;毛白杨&quot;选题，在南方周末期间是否有其他项目？</li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                      <div class="flex justify-between text-xs text-warm-400 md:justify-end">
+                                        <button type="button" class="disabled:opacity-30" disabled>← 上一题</button>
+                                        <button type="button">下一题 →</button>
+                                      </div>
+                                    </div>
+                                    <div class="mt-6 flex gap-3">
+                                      <button type="button" class="btn-primary flex-1">提交回答</button>
+                                      <button type="button" class="btn-secondary">跳过</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <textarea class="ds-textarea" readonly rows="4">在暑期项目中，我负责…</textarea>
                         </div>
                         <div class="demo-followup-pane" data-followup-pane="1">
-                          <div class="ds-qcard">
-                            <strong>追问 1 / 2 · 智能选项</strong>
-                            选一个最贴近你经历的表述，模型会写入上下文。
-                          </div>
-                          <div class="ds-options">
-                            <span class="ds-chip ds-chip--on">曝光量提升约 30%</span>
-                            <span class="ds-chip">转化率环比 +2pt</span>
-                            <span class="ds-chip">客诉响应缩短至 4h 内</span>
+                          <div class="page-shell">
+                            <div class="page-container">
+                              <div class="completeness-bar px-1 mb-4">
+                                <div class="completeness-bar-track"><div class="completeness-bar-fill" style="width: 76%"></div></div>
+                                <span class="shrink-0 text-xs text-warm-500">信息完整度</span>
+                                <span class="completeness-bar-label">76%</span>
+                              </div>
+                              <div class="paper-stack">
+                                <div class="paper-sheet space-y-8">
+                                  <div>
+                                    <h3 class="section-title mb-5 flex items-center gap-2">
+                                      <svg class="h-4 w-4 text-warm-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="9" /><line x1="12" y1="11" x2="12" y2="17" /><circle cx="12" cy="8" r="0.5" fill="currentColor" stroke="none" />
+                                      </svg>
+                                      信息补充
+                                      <span class="text-xs font-normal text-warm-400">1 / 4</span>
+                                    </h3>
+                                    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch">
+                                      <div class="q-card-stack">
+                                        <div class="q-card q-card-active">
+                                          <div class="flex items-start justify-between gap-2">
+                                            <span class="text-warm-800">在&quot;毛白杨&quot;选题中，你具体对接了多少家政府与科研机构？成稿发布后在平台上的排名和互动数据大概是多少？</span>
+                                            <span class="shrink-0 rounded bg-primary-100 px-1.5 py-0.5 text-[10px] font-semibold text-primary-700">重要</span>
+                                          </div>
+                                          <p class="mt-1.5 text-xs text-warm-500">量化数据能大幅提升简历说服力</p>
+                                        </div>
+                                        <div class="q-card q-card-stacked"><span class="invisible">占位</span></div>
+                                      </div>
+                                      <div class="relative flex h-full min-h-0 flex-col">
+                                        <div class="absolute -top-7 right-0">
+                                          <span class="flex items-center gap-2">
+                                            <span class="text-xs text-warm-500">智能模式</span>
+                                            <span class="toggle-track" data-on="true" aria-hidden="true"><span class="toggle-thumb"></span></span>
+                                          </span>
+                                        </div>
+                                        <div class="flex min-h-0 flex-1 flex-col overflow-y-auto">
+                                          <div class="space-y-2">
+                                            <div class="option-chip option-chip-selected">
+                                              <span class="mr-2 inline-flex h-4 w-4 items-center justify-center rounded border border-current text-[10px]">✓</span>
+                                              对接5家以上，评论互动500+
+                                            </div>
+                                            <div class="option-chip">
+                                              <span class="mr-2 inline-flex h-4 w-4 items-center justify-center rounded border border-current text-[10px]"></span>
+                                              对接3-5家，评论互动200-500
+                                            </div>
+                                            <div class="option-chip">
+                                              <span class="mr-2 inline-flex h-4 w-4 items-center justify-center rounded border border-current text-[10px]"></span>
+                                              对接1-3家，互动数据不确定
+                                            </div>
+                                            <div class="option-chip">
+                                              <span class="mr-2 inline-flex h-4 w-4 items-center justify-center rounded border border-current text-[10px]"></span>
+                                              其他（请补充）
+                                            </div>
+                                            <input type="text" class="input-field text-sm" readonly placeholder="补充说明…" value="" />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+                                      <div>
+                                        <div class="border-t border-warm-200/60 pt-3">
+                                          <p class="mb-1.5 text-xs font-medium text-warm-500">信息缺口</p>
+                                          <ul class="space-y-0.5 text-xs text-warm-600">
+                                            <li class="flex items-start gap-1.5"><span class="mt-1 block h-1.5 w-1.5 shrink-0 rounded-full bg-warm-300"></span>具体对接了多少家机构？传播效果的排名或互动数据？</li>
+                                            <li class="flex items-start gap-1.5"><span class="mt-1 block h-1.5 w-1.5 shrink-0 rounded-full bg-warm-300"></span>除了&quot;毛白杨&quot;选题，在南方周末期间是否有其他项目？</li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                      <div class="flex justify-between text-xs text-warm-400 md:justify-end">
+                                        <button type="button" class="disabled:opacity-30" disabled>← 上一题</button>
+                                        <button type="button">下一题 →</button>
+                                      </div>
+                                    </div>
+                                    <div class="mt-6 flex gap-3">
+                                      <button type="button" class="btn-primary flex-1">提交回答</button>
+                                      <button type="button" class="btn-secondary">跳过</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -556,7 +816,7 @@
                 </div>
               </div>
             </div>
-            <p class="mac-caption">静态复刻 · 左侧切换演示变体</p>
+            <p class="mac-caption">产品界面（追问补充）</p>
           </div>
         </div>
       </section>
@@ -586,19 +846,32 @@
                 <div class="mac-viewport-inner">
                   <div class="demo-embed" aria-hidden="true">
                     <div class="demo-scroll">
-                      <div class="ds-page">
-                        <h3 class="ds-block-title">原文与改写并排（示意）</h3>
-                        <div class="ds-diff-grid">
-                          <div class="ds-diff-col">
-                            <h4>简历原文</h4>
-                            负责社群日常运营与内容更新，协助活动执行，完成上级交办任务。
-                          </div>
-                          <div class="ds-diff-col">
-                            <h4>改写稿</h4>
-                            <span class="ds-mark-del">负责社群日常运营与内容更新，协助活动执行，完成上级交办任务。</span>
-                            <span class="ds-mark-add"
-                              >独立负责社群内容排期与复盘，协助落地三场线上活动，周期内总曝光约 12w。</span
-                            >
+                      <div class="page-shell">
+                        <div class="page-container">
+                          <div class="space-y-6">
+                            <div class="grid gap-px overflow-hidden rounded-lg border border-warm-200 bg-warm-200 md:grid-cols-2">
+                              <div class="bg-white">
+                                <div class="border-b border-warm-200 px-4 py-2 text-xs font-medium text-warm-500">原文</div>
+                                <div class="whitespace-pre-wrap p-4 text-sm leading-relaxed text-warm-700">
+                                  <span class="bg-primary-100/60 text-warm-500 line-through">负责社群日常运营与内容更新，协助活动执行，完成上级交办任务。</span>
+                                </div>
+                              </div>
+                              <div class="bg-white">
+                                <div class="border-b border-warm-200 px-4 py-2 text-xs font-medium text-warm-500">改写后</div>
+                                <div class="whitespace-pre-wrap p-4 text-sm leading-relaxed text-warm-700">
+                                  <span class="bg-primary-50 text-primary-800">独立负责社群内容排期与复盘，协助落地三场线上活动，周期内总曝光约 12w。</span>
+                                </div>
+                              </div>
+                            </div>
+                            <section>
+                              <h4 class="mb-2 text-xs font-medium uppercase tracking-wider text-warm-500">修改说明</h4>
+                              <ul class="space-y-1">
+                                <li class="flex items-start gap-2 text-sm text-warm-700">
+                                  <span class="mt-1 block h-1.5 w-1.5 shrink-0 rounded-full bg-warm-300"></span>
+                                  将职责描述改为可量化成果与独立负责范围
+                                </li>
+                              </ul>
+                            </section>
                           </div>
                         </div>
                       </div>
@@ -607,7 +880,7 @@
                 </div>
               </div>
             </div>
-            <p class="mac-caption">静态复刻 · 差异高亮示意</p>
+            <p class="mac-caption">产品界面（DiffViewer 并排结构）</p>
           </div>
         </div>
       </section>
@@ -648,44 +921,130 @@
                   <div class="mac-viewport-inner">
                   <div class="demo-embed" aria-hidden="true">
                     <div class="demo-scroll">
-                      <div class="ds-page">
-                        <span class="ds-plan-tag">规划草案</span>
-                        <h3 class="ds-block-title" style="margin-top: 0">投递时间线（示意）</h3>
-                        <p class="ds-muted">以下时间线与建议项为静态排版，演示长内容随屏内滚动同步阅读。</p>
-                        <div class="ds-timeline">
-                          <div class="ds-tl-item">
-                            <strong>第 1–2 周</strong>
-                            固化目标岗位清单，按 JD 共性补齐简历关键词与量化指标；完成 2 次小范围 peer review。
+                      <div class="page-shell">
+                        <div class="page-container">
+                          <section class="paper-note mb-12">
+                            <div class="mb-2 flex items-baseline justify-between text-sm">
+                              <span class="text-warm-600">简历优化进度</span>
+                              <span class="font-medium text-warm-800">62%</span>
+                            </div>
+                            <div class="mb-2 h-1.5 overflow-hidden rounded-full bg-warm-200">
+                              <div class="h-full rounded-full bg-primary-500 transition-all duration-500" style="width: 62%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-warm-400">
+                              <span>已确认 5/8 段</span>
+                              <span>综合匹配度 68%</span>
+                            </div>
+                          </section>
+                          <div class="space-y-12">
+                            <section class="paper-note">
+                              <h2 class="section-title mb-3">当前节奏</h2>
+                              <p class="text-sm font-medium text-warm-800">密集投递 + 迭代改写</p>
+                              <p class="mt-1 text-sm text-warm-600">距离目标窗口约 6 周，建议优先补齐量化指标后再扩投递面。</p>
+                              <p class="mt-1 text-sm text-warm-500">依据：实习与项目段落仍缺可对齐 JD 的关键词与结果数据。</p>
+                            </section>
+                            <hr class="divider" />
+                            <section class="paper-stack">
+                              <div class="paper-sheet">
+                                <h2 class="section-title mb-1 flex items-center gap-2">
+                                  <svg class="h-4 w-4 text-warm-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                                    <rect x="3" y="4" width="18" height="17" rx="2" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="16" y1="2" x2="16" y2="6" />
+                                  </svg>
+                                  里程碑
+                                </h2>
+                                <p class="mb-5 text-xs text-warm-400">点击可展开实习 / 项目建议</p>
+                                <div class="space-y-4">
+                                  <div class="border-l-2 border-warm-200 pl-4">
+                                    <span class="text-xs text-primary-600">第 2 周 · 五</span>
+                                    <p class="text-sm font-medium text-warm-800">完成简历量化指标一版</p>
+                                    <span class="mt-0.5 inline-flex items-center text-xs text-warm-400">
+                                      <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+                                      <span class="ml-0.5">展开</span>
+                                    </span>
+                                  </div>
+                                  <div class="border-l-2 border-warm-200 pl-4">
+                                    <span class="text-xs text-primary-600">第 4 周 · 三</span>
+                                    <p class="text-sm font-medium text-warm-800">启动定向投递（20 家）</p>
+                                    <div class="mt-2 space-y-3 text-sm">
+                                      <div>
+                                        <p class="mb-1 text-xs font-medium text-warm-600">实习建议</p>
+                                        <ul class="space-y-0.5 text-warm-700">
+                                          <li class="flex items-start gap-1.5">
+                                            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-warm-300"></span>
+                                            补充一段与目标岗位动词对齐的成果句
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+                            <hr class="divider" />
+                            <section class="paper-note">
+                              <h2 class="section-title mb-3 flex items-center gap-2">
+                                <svg class="h-4 w-4 text-warm-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                                  <path d="M4 21V4" /><path d="M4 4l12 4-12 4" />
+                                </svg>
+                                投递优先级
+                              </h2>
+                              <p class="text-sm text-warm-700">先内推与校友网络，再官网海投；同一岗位族保持简历版本一致，避免关键词漂移。</p>
+                              <p class="mt-1 text-sm text-warm-500">内推反馈周期更短，便于快速迭代改写段落。</p>
+                            </section>
+                            <hr class="divider" />
+                            <section class="paper-note">
+                              <h2 class="section-title mb-4 flex items-center gap-2">
+                                <svg class="h-4 w-4 text-warm-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><polyline points="4 16 8 12 12 14 20 6" /><polyline points="16 6 20 6 20 10" /></svg>
+                                最重要的建议
+                              </h2>
+                              <ol class="space-y-2">
+                                <li class="flex items-start gap-3 text-sm">
+                                  <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-warm-200 text-xs font-medium text-warm-700">1</span>
+                                  <span class="text-warm-700">把 2 段实习各补 1 条可验证指标（曝光/转化/时长）</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-sm">
+                                  <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-warm-200 text-xs font-medium text-warm-700">2</span>
+                                  <span class="text-warm-700">按 JD 高频词重排项目小标题，减少「负责协助」式表述</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-sm">
+                                  <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-warm-200 text-xs font-medium text-warm-700">3</span>
+                                  <span class="text-warm-700">每周固定 2 次投递复盘，记录拒信原因关键词</span>
+                                </li>
+                              </ol>
+                            </section>
+                            <hr class="divider" />
+                            <section class="paper-note">
+                              <h2 class="section-title mb-4">避坑指南</h2>
+                              <div class="space-y-3">
+                                <div class="border-l-2 border-warm-200 pl-4 py-1">
+                                  <p class="text-sm font-medium text-warm-800">盲投同一简历</p>
+                                  <p class="mt-0.5 text-sm text-warm-600">原因：不同细分岗位关键词权重不同</p>
+                                  <p class="text-sm text-warm-600">应对：每类岗位保存一个「关键词补丁」版本</p>
+                                </div>
+                                <div class="border-l-2 border-warm-200 pl-4 py-1">
+                                  <p class="text-sm font-medium text-warm-800">过度包装无证据</p>
+                                  <p class="mt-0.5 text-sm text-warm-600">原因：面试追问容易穿帮</p>
+                                  <p class="text-sm text-warm-600">应对：每条量化旁备注数据来源或估算口径</p>
+                                </div>
+                              </div>
+                            </section>
+                            <hr class="divider" />
+                            <div class="flex justify-center gap-3">
+                              <button type="button" class="btn-secondary inline-flex items-center gap-2">重新生成</button>
+                              <button type="button" class="btn-primary">完成</button>
+                            </div>
+                            <div class="mt-8 space-y-3">
+                              <p class="text-sm leading-relaxed text-warm-600">规划页与录入、分析、改写共用会话进度；里程碑与建议由 <code>plan</code> API 与会话状态共同驱动。</p>
+                              <p class="text-sm leading-relaxed text-warm-600">建议将内推、官网、招聘会三条渠道分开统计转化率，便于识别简历版本问题与渠道匹配度。</p>
+                            </div>
                           </div>
-                          <div class="ds-tl-item">
-                            <strong>第 3–5 周</strong>
-                            集中投递与内推并行，记录投递漏斗；按反馈迭代改写模块，优先实习与项目叙事。
-                          </div>
-                          <div class="ds-tl-item">
-                            <strong>第 6–8 周</strong>
-                            复盘笔试/面试缺口，用追问模块补全上下文，再生成下一轮改写与规划补丁。
-                          </div>
-                        </div>
-                        <div class="ds-long">
-                          <p>
-                            真实产品中，规划由 <code>plan</code> API 与会话进度共同驱动；此处仅展示版式与阅读节奏，不发起网络请求。
-                          </p>
-                          <p>
-                            将「下一步行动」拆成可勾选里程碑，有助于把焦虑从「写不好」转移到「这周能完成哪三件小事」；演示页继续向下滚动即可读完本条与下文。
-                          </p>
-                          <p>
-                            建议把内推、官网投递、招聘会三条渠道分开统计转化率；当某一渠道显著偏低时，优先检查简历关键词是否与该渠道 JD 风格匹配。
-                          </p>
-                          <p>
-                            对文科背景候选人，模型侧通常会强化「叙事—证据—可验证指标」三段式；本静态页用于宣传站离线展示，不代表某次真实生成结果。
-                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <p class="mac-caption">静态复刻 · 屏内滚动同步演示区</p>
+              <p class="mac-caption">产品界面（规划页 · 嵌入模式）</p>
             </div>
           </div>
           </div>

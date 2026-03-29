@@ -68,7 +68,8 @@
     const root = document.getElementById('demo-rewrite-root');
     const tr = document.getElementById('demo-rewrite-transcript');
     if (root) root.classList.remove('is-recording', 'is-transcribing', 'is-done');
-    if (tr) tr.textContent = '';
+    if (tr && "value" in tr) tr.value = "";
+    else if (tr) tr.textContent = "";
   }
 
   function startRewriteStaticVoiceDemo() {
@@ -87,7 +88,8 @@
           root.classList.add('is-done');
           return;
         }
-        tr.textContent = REWRITE_VOICE_TEXT.slice(0, i);
+        if ("value" in tr) tr.value = REWRITE_VOICE_TEXT.slice(0, i);
+        else tr.textContent = REWRITE_VOICE_TEXT.slice(0, i);
         i += 1;
         rewriteTypeTimer = window.setTimeout(step, 38);
       };
