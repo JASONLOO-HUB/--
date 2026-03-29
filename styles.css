@@ -20,10 +20,10 @@
   --deck-bar-h: 58px;
   --font-sans: "Inter", "Noto Sans SC", system-ui, sans-serif;
   --font-display: "Newsreader", "Noto Serif SC", Georgia, "Songti SC", serif;
-  /* 逻辑宽度尽量 ≥768px，供 iframe 内 Tailwind md: 并排布局 */
+  /* 逻辑宽度尽量 ≥768px，供演示区内响应式并排布局 */
   --mac-h: min(70vh, 680px);
   --mac-w: min(92vw, 1020px);
-  /* 整块 Mac 视觉缩放（不改变 iframe 布局视口，仅缩小外观以防溢出） */
+  /* 整块 Mac 视觉缩放（不改变演示区布局视口，仅缩小外观以防溢出） */
   --mac-visual-scale: 1;
 }
 
@@ -768,7 +768,7 @@ a:hover {
   cursor: help;
 }
 
-/* 长页：仅在当前屏内滚动，驱动 iframe */
+/* 长页：仅在当前屏内滚动，驱动演示区内 .demo-scroll */
 .slide--scroll-drive.is-active {
   justify-content: flex-start;
   overflow-y: auto;
@@ -849,7 +849,7 @@ a:hover {
   }
 }
 
-/* 中等宽度窗口：压缩左侧文案列，把横向空间让给 Mac / iframe */
+/* 中等宽度窗口：压缩左侧文案列，把横向空间让给 Mac / 演示区 */
 @media (min-width: 960px) and (max-width: 1200px) {
   .slide__grid .feature__text {
     flex: 0 1 15rem;
@@ -857,7 +857,7 @@ a:hover {
   }
 }
 
-/* 视口较窄/矮时缩小 Mac 外观（后者覆盖前者）；iframe 逻辑尺寸仍由 --mac-w / 列宽决定 */
+/* 视口较窄/矮时缩小 Mac 外观（后者覆盖前者）；演示区逻辑尺寸仍由 --mac-w / 列宽决定 */
 @media (min-width: 960px) and (max-width: 1180px) {
   :root {
     --mac-visual-scale: 0.94;

@@ -2,18 +2,11 @@
   "name": "fanshen-marketing-site",
   "private": true,
   "type": "module",
-  "description": "宣传站静态页 + 内嵌 demo。构建：frontend/ 与根目录各 npm ci 后 npm run build 生成 demo/（base 为 ./，适配 GitHub Pages 项目站）。推 main 触发 .github/workflows/deploy-github-pages.yml。",
+  "description": "宣传站纯静态资源：产品界面为站内 HTML/CSS 复刻，无需构建、不依赖上级 frontend，可直接推送到 GitHub Pages。",
   "scripts": {
-    "build": "vite build --config ./vite.config.ts --mode marketing",
-    "start": "serve . -l 5175 -c serve.json",
-    "preview": "npm run build && npm run start"
+    "start": "serve . -l 5175 -c serve.json"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
-    "serve": "^14.2.4",
-    "tailwindcss": "^3.3.6",
-    "vite": "^5.0.8"
+    "serve": "^14.2.4"
   }
 }
