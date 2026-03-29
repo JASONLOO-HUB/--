@@ -1059,6 +1059,16 @@ a:hover {
   margin: 0 auto;
 }
 
+/* 产品演示层：填满 Mac 视口；内层 .demo-scroll 负责纵向滚动并与 data-demo-scroll 屏同步 */
+.demo-embed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
 @media (max-width: 768px) {
   :root {
     --mac-h: min(52vh, 440px);

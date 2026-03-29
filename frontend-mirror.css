@@ -3,6 +3,12 @@
  * 宣传站 Mac 内为嵌入模式：不展示各页 h1.page-title / p.page-desc（与 VITE_EMBED_CHROME 一致）。
  */
 .demo-scroll {
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -28,6 +34,20 @@
 .demo-scroll label {
   pointer-events: none;
   cursor: default;
+}
+
+/* 与 Tailwind Preflight 一致：无 class 的裸 button 无框线（上一题/下一题等）；.btn-* / .pill 再单独写回样式 */
+.demo-scroll button {
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-align: inherit;
 }
 
 .demo-scroll .page-shell {
@@ -176,6 +196,51 @@
   width: 100%;
   max-height: none;
   min-height: 0;
+}
+
+/* 宣传站分析页 mock：整体留白与便签内边距（仅 .demo-analysis-scroll） */
+.demo-scroll.demo-analysis-scroll .page-shell {
+  padding-top: 2.25rem;
+  padding-bottom: 2.75rem;
+}
+
+@media (min-width: 640px) {
+  .demo-scroll.demo-analysis-scroll .page-shell {
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.demo-scroll.demo-analysis-scroll .page-container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .demo-scroll.demo-analysis-scroll .page-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.demo-scroll.demo-analysis-scroll .analysis-notes-grid .note-strip {
+  padding: 0.875rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .demo-scroll.demo-analysis-scroll .analysis-notes-grid .note-strip {
+    padding: 1rem 1.125rem;
+  }
+}
+
+.demo-scroll.demo-analysis-scroll .paper-stack .paper-sheet {
+  padding: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .demo-scroll.demo-analysis-scroll .paper-stack .paper-sheet {
+    padding: 1.75rem 2rem;
+  }
 }
 
 .demo-scroll .paper-tag {
@@ -336,21 +401,30 @@
 
 .demo-scroll .q-card {
   position: relative;
+  cursor: default;
   border-radius: 0.75rem;
   border: 1px solid #d8c8b2;
   background: #fffdf8;
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
+  line-height: 1.5;
   min-height: 5rem;
   box-shadow: 0 2px 8px rgba(91, 64, 42, 0.1);
+  transition:
+    transform 300ms ease-out,
+    opacity 300ms ease-out,
+    box-shadow 300ms ease-out,
+    border-color 300ms ease-out,
+    filter 300ms ease-out;
 }
 
+/* 与 RewritePage / index.css：border-primary-500 + ring-1 ring-primary-300/40 */
 .demo-scroll .q-card-active {
   border-color: #a8785c;
-  box-shadow:
-    0 0 0 1px rgba(168, 120, 92, 0.35),
-    0 4px 16px rgba(122, 82, 64, 0.18);
   background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(212, 181, 164, 0.4),
+    0 4px 16px rgba(122, 82, 64, 0.18);
   z-index: 10;
 }
 
@@ -419,9 +493,36 @@
 .demo-scroll .fe-pie-slot::after {
   content: "";
   position: absolute;
-  inset: 18%;
+  /* 与 AnalysisPage ECharts pie radius ['62%', '100%'] 内环比例接近 */
+  inset: 19%;
   border-radius: 50%;
   background: #fffaf0;
+}
+
+/* 与 AnalysisPage 一致：悬停「改写潜力」饼区域时，在「经历匹配度」饼上叠显预计匹配度 */
+.demo-scroll .demo-analysis-expected-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 250, 240, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.demo-scroll .demo-analysis-pie-row:has(.demo-analysis-pie-trigger-right:hover) .demo-analysis-expected-overlay {
+  opacity: 1;
+}
+
+.demo-scroll .note-strip-c .flex.flex-wrap .tag {
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.35;
 }
 
 /* 改写页：演示录音态 */
@@ -441,6 +542,41 @@
 
 #demo-rewrite-root.is-transcribing .demo-rec-btn {
   opacity: 0.85;
+}
+
+#demo-rewrite-root .demo-rewrite-transcribing {
+  display: none;
+}
+
+#demo-rewrite-root.is-transcribing .demo-rewrite-transcribing {
+  display: inline-flex;
+}
+
+#demo-rewrite-root.is-transcribing .demo-rewrite-mic-row {
+  display: none;
+}
+
+#demo-rewrite-root .demo-rec-label-rec,
+#demo-rewrite-root .demo-rewrite-hint-rec {
+  display: none;
+}
+
+#demo-rewrite-root.is-recording .demo-rec-label-idle,
+#demo-rewrite-root.is-recording .demo-rewrite-hint-idle {
+  display: none;
+}
+
+#demo-rewrite-root.is-recording .demo-rec-label-rec,
+#demo-rewrite-root.is-recording .demo-rewrite-hint-rec {
+  display: inline;
+}
+
+#demo-rewrite-root .demo-rewrite-submit-wrap {
+  display: none;
+}
+
+#demo-rewrite-root.is-done .demo-rewrite-submit-wrap {
+  display: block;
 }
 
 /* 追问双面板 */
@@ -584,6 +720,9 @@
 .demo-scroll .h-5 {
   height: 1.25rem;
 }
+.demo-scroll .h-6 {
+  height: 1.5rem;
+}
 .demo-scroll .h-8 {
   height: 2rem;
 }
@@ -622,6 +761,9 @@
 }
 .demo-scroll .w-5 {
   width: 1.25rem;
+}
+.demo-scroll .w-6 {
+  width: 1.5rem;
 }
 .demo-scroll .w-8 {
   width: 2rem;
@@ -698,6 +840,9 @@
 .demo-scroll .gap-8 {
   gap: 2rem;
 }
+.demo-scroll .gap-10 {
+  gap: 2.5rem;
+}
 .demo-scroll .gap-px {
   gap: 1px;
 }
@@ -721,6 +866,9 @@
 }
 .demo-scroll .space-y-8 > * + * {
   margin-top: 2rem;
+}
+.demo-scroll .space-y-10 > * + * {
+  margin-top: 2.5rem;
 }
 .demo-scroll .space-y-12 > * + * {
   margin-top: 3rem;
@@ -1021,8 +1169,15 @@
   .demo-scroll .sm\:gap-8 {
     gap: 2rem;
   }
+  .demo-scroll .sm\:gap-10 {
+    gap: 2.5rem;
+  }
   .demo-scroll .sm\:h-full {
     height: 100%;
+  }
+  .demo-scroll .sm\:px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 }
 

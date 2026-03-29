@@ -24,9 +24,33 @@
   let rewriteTypeTimer = 0;
 
   const REWRITE_VOICE_TEXT =
+    (typeof window !== 'undefined' && window.SITE_DEMO_MOCK && window.SITE_DEMO_MOCK.rewriteVoiceText) ||
     '在实习期间我负责社群运营与内容策划，独立撰写活动文案，协助落地三场线上活动，整体曝光量提升约三成。';
 
   let activeIndex = 0;
+  /** 录入屏 Mac 内子步骤：0 = 待上传简历，1 = 填写 JD（对齐 frontend InputPage step） */
+  let inputDemoStep = 0;
+  let inputDemoReachedJd = false;
+
+  function syncInputDemoUI() {
+    const slide = document.getElementById('slide-input');
+    if (!slide) return;
+    const resumePanel = slide.querySelector('[data-demo-input-panel="resume"]');
+    const jdPanel = slide.querySelector('[data-demo-input-panel="jd"]');
+    const n2 = slide.querySelector('[data-demo-stepper-num="2"]');
+    const l2 = slide.querySelector('[data-demo-stepper-label="2"]');
+    const onJd = inputDemoStep >= 1;
+    if (n2) {
+      n2.className =
+        'flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold ' +
+        (onJd ? 'border-primary-600 bg-primary-600 text-white' : 'border-warm-300 bg-[#fff7ea] text-warm-500');
+    }
+    if (l2) {
+      l2.className = 'mt-2 text-xs ' + (onJd ? 'text-warm-800' : 'ink-faint');
+    }
+    if (resumePanel) resumePanel.classList.toggle('hidden', inputDemoStep !== 0);
+    if (jdPanel) jdPanel.classList.toggle('hidden', inputDemoStep !== 1);
+  }
 
   function demoScrollEl(slide) {
     return slide?.querySelector('.demo-scroll') ?? null;
@@ -57,7 +81,7 @@
 
   function goToSlideById(id) {
     const idx = SLIDE_IDS.indexOf(id);
-    if (idx >= 0) showSlide(idx);
+    if (idx >= 0) showSlide(idx, { navigateMode: 'direct' });
   }
 
   function resetRewriteStaticDemo() {
@@ -104,9 +128,23 @@
     if (inner) inner.scrollTop = 0;
   }
 
-  function showSlide(index) {
+  function showSlide(index, opts) {
+    const mode = opts && opts.navigateMode ? opts.navigateMode : 'direct';
     const i = Math.max(0, Math.min(slides.length - 1, index));
     const prevIdx = activeIndex;
+
+    if (i === 1) {
+      if (mode === 'direct') {
+        inputDemoStep = 0;
+        inputDemoReachedJd = false;
+      } else if (mode === 'deck-next' && prevIdx === 0) {
+        inputDemoStep = 0;
+        inputDemoReachedJd = false;
+      } else if (mode === 'deck-prev' && prevIdx === 2) {
+        inputDemoStep = inputDemoReachedJd ? 1 : 0;
+      }
+    }
+
     slides.forEach((s, j) => {
       if (j === i) {
         s.classList.add('is-active');
@@ -131,6 +169,7 @@
     updateChrome();
     resetDriveScroll(slides[i]);
     syncDemoScrollFromSection(slides[i]);
+    if (i === 1) syncInputDemoUI();
   }
 
   function onDeckNext() {
@@ -143,10 +182,25 @@
       followupCtl.apply(1);
       return;
     }
-    showSlide(activeIndex + 1);
+    if (activeIndex === 1 && inputDemoStep === 0) {
+      inputDemoStep = 1;
+      inputDemoReachedJd = true;
+      syncInputDemoUI();
+      return;
+    }
+    showSlide(activeIndex + 1, { navigateMode: 'deck-next' });
   }
 
-  if (btnPrev) btnPrev.addEventListener('click', () => showSlide(activeIndex - 1));
+  function onDeckPrev() {
+    if (activeIndex === 1 && inputDemoStep === 1) {
+      inputDemoStep = 0;
+      syncInputDemoUI();
+      return;
+    }
+    showSlide(activeIndex - 1, { navigateMode: 'deck-prev' });
+  }
+
+  if (btnPrev) btnPrev.addEventListener('click', onDeckPrev);
   if (btnNext) btnNext.addEventListener('click', onDeckNext);
 
   deckDots.forEach((dot) => {
@@ -171,8 +225,20 @@
   }
 
   if (heroEnter) {
-    heroEnter.addEventListener('click', () => showSlide(1));
+    heroEnter.addEventListener('click', () => showSlide(1, { navigateMode: 'deck-next' }));
   }
+
+  (function bindInputDemoBack() {
+    const slide = document.getElementById('slide-input');
+    const back = slide && slide.querySelector('[data-demo-input-back-jd]');
+    if (back) {
+      back.addEventListener('click', () => {
+        if (activeIndex !== 1) return;
+        inputDemoStep = 0;
+        syncInputDemoUI();
+      });
+    }
+  })();
 
   const driveSections = Array.from(document.querySelectorAll('[data-demo-scroll]'));
 
@@ -216,8 +282,11 @@
   const dataEl = document.getElementById('followup-variants-data');
   const panes = root ? root.querySelectorAll('[data-followup-pane]') : [];
 
-  let variants = [];
-  if (root && dataEl) {
+  let variants =
+    typeof window !== 'undefined' && window.SITE_DEMO_MOCK && window.SITE_DEMO_MOCK.followupVariants
+      ? window.SITE_DEMO_MOCK.followupVariants
+      : [];
+  if ((!variants || !variants.length) && root && dataEl) {
     try {
       variants = JSON.parse(dataEl.textContent);
     } catch {
