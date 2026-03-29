@@ -125,8 +125,17 @@ a:hover {
   font-size: 0.88em;
 }
 
-.site-nav {
+.site-header__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem 0.75rem;
   flex: 1;
+  min-width: 0;
+}
+
+.site-nav {
+  flex: 1 1 auto;
   min-width: 0;
   display: flex;
   align-items: center;
@@ -174,6 +183,81 @@ a:hover {
 .site-nav__node.is-active {
   color: var(--ink);
   background: color-mix(in srgb, var(--line-strong) 35%, transparent);
+}
+
+.lang-switch {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.lang-switch__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.lang-switch__trigger:hover,
+.lang-switch__trigger:focus-visible {
+  color: var(--ink);
+  border-color: var(--ink-faint);
+  background: color-mix(in srgb, var(--line) 40%, transparent);
+  outline: none;
+}
+
+.lang-switch__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 7.5rem;
+  margin: 0;
+  padding: 0.35rem 0;
+  list-style: none;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-elevated);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--ink) 10%, transparent);
+  z-index: 120;
+}
+
+.lang-switch__menu li {
+  margin: 0;
+}
+
+.lang-switch__option {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.85rem;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.lang-switch__option:hover,
+.lang-switch__option:focus-visible {
+  background: color-mix(in srgb, var(--line) 50%, transparent);
+  color: var(--ink);
+  outline: none;
+}
+
+.lang-switch__option[aria-current='true'] {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--line-strong) 28%, transparent);
 }
 
 /* 底栏：左右箭头 + 纯点阵，无外框药丸（封面页整栏隐藏） */
@@ -330,7 +414,8 @@ a:hover {
 .hero-stage {
   position: relative;
   width: 100%;
-  flex: 1 1 auto;
+  /* 按内容增高，避免英文等长文案溢出后与 .hero-depth 叠在一起 */
+  flex: 0 0 auto;
   min-height: min(calc(100vh - var(--header-h) - var(--deck-bar-h) - 9rem), 700px);
   margin: 0 0 1.25rem;
 }
@@ -496,7 +581,19 @@ a:hover {
 .slide--hero h1 {
   font-size: clamp(2rem, 5vw, 2.85rem);
   margin: 0 0 0.85rem;
+  padding-top: 0.08em;
   text-shadow: 0 1px 24px color-mix(in srgb, var(--bg) 75%, transparent);
+}
+
+/* 英文标题更易折行，略放宽主栏以免与地球背景抢宽 */
+html[lang='en'] .hero-view__inner {
+  max-width: min(28.5rem, 100%);
+}
+
+@media (min-width: 769px) {
+  html[lang='en'] .hero-depth__grid {
+    grid-template-columns: minmax(0, 28.5rem) minmax(0, 1fr);
+  }
 }
 
 .slide--hero .hero__cta {
@@ -526,19 +623,19 @@ a:hover {
   line-height: 1.5;
 }
 
-/* Hero 下区：Anthropic 式双栏 + 横线折叠项 */
+/* Hero 下区：与顶区同一阅读栏（.impeccable：协调布局、顺滑阅读路径） */
 .hero-depth {
   width: 100%;
-  max-width: 58rem;
+  max-width: 1220px;
   margin: 0 auto;
-  padding: 0 0.25rem 2.75rem;
+  padding: 1.85rem 1.25rem 2.75rem;
   border-top: 1px solid var(--line);
-  padding-top: 1.85rem;
 }
 
 .hero-depth__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  /* 左栏与 .hero-view__inner 同宽，陈述与上方标题/卡片垂直连贯 */
+  grid-template-columns: minmax(0, 26.5rem) minmax(0, 1fr);
   gap: clamp(1.75rem, 4vw, 3.25rem);
   align-items: start;
 }
@@ -552,18 +649,19 @@ a:hover {
 
 .hero-depth__statement {
   margin: 0;
+  padding-top: 0.2rem;
   font-family: var(--font-display);
   font-size: clamp(1.2rem, 2.4vw, 1.45rem);
   font-weight: 500;
-  line-height: 1.38;
+  line-height: 1.5;
   letter-spacing: -0.02em;
   color: var(--ink);
-  max-width: 22rem;
+  max-width: none;
 }
 
 @media (max-width: 768px) {
   .hero-depth__statement {
-    max-width: none;
+    padding-top: 0;
   }
 }
 

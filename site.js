@@ -346,8 +346,11 @@
       };
 
       const swap = () => {
-        titleEl.textContent = v.title;
-        blurbEl.textContent = v.blurb;
+        const I = typeof window !== 'undefined' && window.SITE_I18N;
+        const tt = I && I.t(`followup.variant.${index}.title`);
+        const bb = I && I.t(`followup.variant.${index}.blurb`);
+        titleEl.textContent = tt || v.title;
+        blurbEl.textContent = bb || v.blurb;
         finish();
       };
 
@@ -379,5 +382,16 @@
     followupCtl.active = 0;
     syncChromeFv(0);
     syncPanes(0);
+
+    window.addEventListener('site:langchange', () => {
+      const I = window.SITE_I18N;
+      if (!I || !titleEl || !blurbEl) return;
+      const v = variants[fvActive];
+      if (!v) return;
+      const tk = I.t(`followup.variant.${fvActive}.title`);
+      const bk = I.t(`followup.variant.${fvActive}.blurb`);
+      titleEl.textContent = tk || v.title;
+      blurbEl.textContent = bk || v.blurb;
+    });
   }
 })();
