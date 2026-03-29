@@ -2,6 +2,28 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <!-- GitHub Pages 项目站：若地址为 /仓库名（无尾斜杠），相对路径 ./styles.css 会误解析到域名根导致 404，全屏留白。在任意相对资源之前注入 <base>。 -->
+    <script>
+      (function () {
+        var p = location.pathname;
+        var basePath;
+        if (!p || p === '/') {
+          basePath = '/';
+        } else if (p.endsWith('/')) {
+          basePath = p;
+        } else {
+          var last = p.slice(p.lastIndexOf('/') + 1);
+          if (last.indexOf('.') !== -1) {
+            basePath = p.slice(0, p.lastIndexOf('/') + 1);
+          } else {
+            basePath = p + '/';
+          }
+        }
+        var el = document.createElement('base');
+        el.href = basePath;
+        document.head.appendChild(el);
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>履程 — 大模型驱动的简历与求职路径助手</title>
     <meta
@@ -31,7 +53,7 @@
       <div class="site-header__inner">
         <a class="logo" href="#" id="logo-home">履程<span> · 求职助手</span></a>
         <nav class="site-nav" aria-label="功能节点">
-          <button type="button" class="site-nav__node" data-slide-target="slide-hero">封面</button>
+          <button type="button" class="site-nav__node is-active" data-slide-target="slide-hero" aria-current="true">封面</button>
           <button type="button" class="site-nav__node" data-slide-target="slide-input">录入</button>
           <button type="button" class="site-nav__node" data-slide-target="slide-analysis">分析</button>
           <button type="button" class="site-nav__node" data-slide-target="slide-rewrite">改写</button>
@@ -42,14 +64,14 @@
       </div>
     </header>
 
-    <div class="deck-bar" id="deck-controls" aria-label="分页切换">
-      <button type="button" id="deck-nav-prev" class="deck-bar__btn" aria-label="上一屏" title="上一屏">
+    <div class="deck-bar is-on-hero" id="deck-controls" aria-label="分页切换">
+      <button type="button" id="deck-nav-prev" class="deck-bar__btn" aria-label="上一屏" title="上一屏" disabled>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M15 18l-6-6 6-6" />
         </svg>
       </button>
       <nav class="deck-bar__dots" aria-label="当前位置">
-        <button type="button" class="deck-bar__dot" data-slide-target="slide-hero" aria-label="封面"></button>
+        <button type="button" class="deck-bar__dot is-active" data-slide-target="slide-hero" aria-label="封面" aria-current="true"></button>
         <button type="button" class="deck-bar__dot" data-slide-target="slide-input" aria-label="录入"></button>
         <button type="button" class="deck-bar__dot" data-slide-target="slide-analysis" aria-label="分析"></button>
         <button type="button" class="deck-bar__dot" data-slide-target="slide-rewrite" aria-label="改写"></button>
@@ -68,7 +90,7 @@
       <!-- 0 独立封面 -->
       <section
         id="slide-hero"
-        class="slide slide--hero"
+        class="slide slide--hero is-active"
         aria-labelledby="hero-title"
         aria-describedby="hero-deeper-region"
       >

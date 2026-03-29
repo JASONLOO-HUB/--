@@ -21,11 +21,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Assemble static site (exclude node_modules)
+      - name: Assemble static site (exclude dev-only / VCS)
         run: |
           rm -rf _site_publish
           mkdir -p _site_publish
-          rsync -a --exclude node_modules ./ _site_publish/
+          rsync -a \
+            --exclude node_modules \
+            --exclude .git \
+            --exclude .github \
+            ./ _site_publish/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
