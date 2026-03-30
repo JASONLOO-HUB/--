@@ -25,7 +25,7 @@
 
   const REWRITE_VOICE_TEXT =
     (typeof window !== 'undefined' && window.SITE_DEMO_MOCK && window.SITE_DEMO_MOCK.rewriteVoiceText) ||
-    '在实习期间我负责社群运营与内容策划，独立撰写活动文案，协助落地三场线上活动，整体曝光量提升约三成。';
+    '在實習期間我負責社群營運與內容策劃，獨立撰寫活動文案，協助落地三場線上活動，整體曝光量提升約三成。';
 
   let activeIndex = 0;
   /** 录入屏 Mac 内子步骤：0 = 待上传简历，1 = 填写 JD（对齐 frontend InputPage step） */

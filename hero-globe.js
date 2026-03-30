@@ -124,6 +124,11 @@ const REGIONS = {
   hk: { lat: 22.35, lon: 114.15, dist: 1.28 },
 };
 
+function initialHeroRegion() {
+  const id = document.querySelector('[data-hero-region-tab].is-active')?.getAttribute('data-hero-region-tab');
+  return id === 'hk' || id === 'mainland' ? id : 'hk';
+}
+
 function camPosFor(lat, lon, dist) {
   return latLonToVec3(lat, lon, dist);
 }
@@ -158,8 +163,9 @@ function init() {
 
   addGraticule(globe, linesR, 15);
 
+  const r0 = REGIONS[initialHeroRegion()];
   const state = {
-    camGoal: camPosFor(REGIONS.mainland.lat, REGIONS.mainland.lon, REGIONS.mainland.dist),
+    camGoal: camPosFor(r0.lat, r0.lon, r0.dist),
     animatingCam: false,
     dim: hero.classList.contains('is-active') ? 1 : 0.5,
   };
@@ -209,7 +215,7 @@ function init() {
       }
       const tabNow =
         document.querySelector('[data-hero-region-tab].is-active')?.getAttribute('data-hero-region-tab') ||
-        'mainland';
+        initialHeroRegion();
       highlightGroupMainland.visible = tabNow === 'mainland';
       highlightGroupHk.visible = tabNow === 'hk';
     })
@@ -265,7 +271,8 @@ function init() {
     });
 
     const initial =
-      document.querySelector('[data-hero-region-tab].is-active')?.getAttribute('data-hero-region-tab') || 'mainland';
+      document.querySelector('[data-hero-region-tab].is-active')?.getAttribute('data-hero-region-tab') ||
+      initialHeroRegion();
     sync(initial, false);
   }
 

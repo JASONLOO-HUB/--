@@ -25,7 +25,7 @@
       'deck.followup': '补信息',
       'deck.diff': '核对',
       'deck.plan': '规划',
-      'hero.title': '履程：面向内地与香港，把履历对齐真实岗位',
+      'hero.title': '履程：面向香港与内地，把履历对齐真实岗位',
       'hero.focusLabel': '地区就业市场痛点',
       'hero.tablistAria': '选择地区以查看痛点并自动调整地图视角',
       'hero.mainland': '内地',
@@ -154,7 +154,7 @@
       'deck.followup': '補資訊',
       'deck.diff': '核對',
       'deck.plan': '規劃',
-      'hero.title': '履程：面向內地與香港，把履歷對齊真實崗位',
+      'hero.title': '履程：面向香港與內地，把履歷對齊真實崗位',
       'hero.focusLabel': '地區就業市場痛點',
       'hero.tablistAria': '選擇地區以檢視痛點並自動調整地圖視角',
       'hero.mainland': '內地',
@@ -261,10 +261,10 @@
         '方舟大模型結合履歷與前置分析出規劃草案，經 <code>plan</code> API 落庫，與錄入—分析—改寫串成閉環。<strong>從材料到行動</strong>可複看、可跟進，投遞節奏落在同一條鏈路上。',
     },
     en: {
-      'page.title': 'CVCOACH — LLM-powered resume and job-search path assistant',
+      'page.title': 'CVCoach — LLM-powered resume and job-search path assistant',
       'page.desc':
         'Structure resumes and JDs first, then RAG alignment, sectioned rewriting, and auditable adoption—Volcengine Ark + SSE/ASR in one closed pipeline.',
-      'logo.brand': 'CVCOACH',
+      'logo.brand': 'CVCoach',
       'logo.tag': '',
       'lang.label': 'Language',
       'lang.zhCN': '简体中文',
@@ -283,7 +283,7 @@
       'deck.followup': 'Follow-up',
       'deck.diff': 'Review',
       'deck.plan': 'Plan',
-      'hero.title': 'CVCOACH: align your resume with real roles in Mainland China and Hong Kong',
+      'hero.title': 'CVCoach: align your resume with real roles in Hong Kong and Mainland China',
       'hero.focusLabel': 'Regional hiring pain points',
       'hero.tablistAria': 'Pick a region to read pain points and adjust the map view',
       'hero.mainland': 'Mainland',
@@ -335,7 +335,7 @@
       'hero.techFoot':
         'Stack: React, TypeScript, Vite, Tailwind; FastAPI; Supabase (PostgreSQL); frontend on Vercel. Plumbing for delivery; differentiation is model and data flow.',
       'hero.social1':
-        'Misaligned resumes and JDs, costly screening, and expensive coaching often block everyday candidates. CVCOACH uses AI to make deep JD alignment, strength mining, and internship-path advice reusable—lowering the bar so people without privileged access still get solid support.',
+        'Misaligned resumes and JDs, costly screening, and expensive coaching often block everyday candidates. CVCoach uses AI to make deep JD alignment, strength mining, and internship-path advice reusable—lowering the bar so people without privileged access still get solid support.',
       'hero.social2':
         'Better person–role fit means less spray-and-pray and fewer bad screens—healthier allocation of talent. Lowering the cost of information and services expands visibility and choice for more people.',
       'feat.input.eyebrow': 'Input',

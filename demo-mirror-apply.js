@@ -121,7 +121,7 @@
       '</span>' +
       '</div></div>' +
       '<div class="bg-white">' +
-      '<div class="border-b border-warm-200 px-4 py-2 text-xs font-medium text-warm-500">改写后</div>' +
+      '<div class="border-b border-warm-200 px-4 py-2 text-xs font-medium text-warm-500">改寫後</div>' +
       '<div class="whitespace-pre-wrap p-4 text-sm leading-relaxed text-warm-700">' +
       '<span>' +
       esc(d.sharedPrefix) +
@@ -185,7 +185,7 @@
     if (ints.length) {
       body +=
         '<div class="mt-2 space-y-3 text-sm">' +
-        '<div><p class="mb-1 text-xs font-medium text-warm-600">实习建议</p>' +
+        '<div><p class="mb-1 text-xs font-medium text-warm-600">實習建議</p>' +
         '<ul class="space-y-0.5 text-warm-700">' +
         ints.map(planBulletLi).join('') +
         '</ul></div></div>';
@@ -193,7 +193,7 @@
     if (projs.length) {
       body +=
         '<div class="mt-2 space-y-3 text-sm">' +
-        '<div><p class="mb-1 text-xs font-medium text-warm-600">项目建议</p>' +
+        '<div><p class="mb-1 text-xs font-medium text-warm-600">專案建議</p>' +
         '<ul class="space-y-0.5 text-warm-700">' +
         projs.map(planBulletLi).join('') +
         '</ul></div></div>';
@@ -270,7 +270,7 @@
             '<p class="mt-0.5 text-sm text-warm-600">原因：' +
             esc(p.why) +
             '</p>' +
-            '<p class="text-sm text-warm-600">应对：' +
+            '<p class="text-sm text-warm-600">應對：' +
             esc(p.mitigation) +
             '</p></div>'
         )
