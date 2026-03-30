@@ -394,8 +394,8 @@
 
   const LANG_HTML = { 'zh-CN': 'zh-CN', 'zh-TW': 'zh-Hant', en: 'en' };
 
-  let currentLang = localStorage.getItem(STORAGE_KEY) || 'zh-CN';
-  if (!STRINGS[currentLang]) currentLang = 'zh-CN';
+  let currentLang = localStorage.getItem(STORAGE_KEY) || 'en';
+  if (!STRINGS[currentLang]) currentLang = 'en';
 
   function t(key) {
     const pack = STRINGS[currentLang];
@@ -411,7 +411,7 @@
   }
 
   function applyDom() {
-    document.documentElement.lang = LANG_HTML[currentLang] || 'zh-CN';
+    document.documentElement.lang = LANG_HTML[currentLang] || 'en';
 
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.getAttribute('data-i18n');
